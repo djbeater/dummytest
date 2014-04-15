@@ -60,9 +60,8 @@ WHERE v.id_lietotajs1=l.id_lietotajs AND v.id_lietotajs2='.$lietotajs.' ORDER BY
   
   
    $skaitas=db::query('SELECT COUNT(*)FROM vestules WHERE id_lietotajs2='.$lietotajs.''); 
-
   $sks=$skaitas[0]["COUNT(*)"];
-
+  
   echo'<br>';  
   echo'<center><h1>Saņemtās vēstules</h1></center>'; 
 
@@ -78,7 +77,7 @@ echo'<div class="panel-group" id="accordion">';
         echo'<a data-toggle="collapse" data-parent="#accordion" href="#s'.$a.'">';
         if($sanemtas[$i]["statuss"]==0){ 
         echo'<b>';
-          echo'<div class="row">';
+          echo'<div onlick="MainitStatusu()" class="row">';
            echo'<div class="col-md-4 text-center">';
            echo $sanemtas[$i]["vards"]. " " .$sanemtas[$i]["uzvards"];
            echo'</div>';
