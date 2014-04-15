@@ -34,16 +34,6 @@ session_start(); //Start PHP session
 <?php
 require_once('config.php');
 require_once('class.db.php');
-  if(DEBUG){
-    ini_set('display_errors', 'On');
-    error_reporting(E_ALL | E_STRICT);
-    
-    
-    
-    echo '<pre>';
-    print_r($_POST);
-    echo '</pre>';
-  }
   /*
   SELECT l.vards,v.tema, v.teksts,v.datums 
 FROM maris_test.lietotaji AS l, maris_test.vestules AS v
@@ -274,6 +264,21 @@ echo'</div>';
     <!-- ========================================================================================================= -->
     
 <hr class="featurette-divider">
+
+  <?php
+  if(DEBUG){
+    ini_set('display_errors', 'On');
+    error_reporting(E_ALL | E_STRICT);
+    echo '<pre>';
+	echo 'GET<br/>';
+	print_r($_GET);
+	echo '<br/>POST<br/>';
+    print_r($_POST);
+    echo '</pre>';
+  }
+
+  ?> 
+  
   </div><!-- /.container -->     
   <script src="js/bootstrap.min.js"></script>
   </body>
