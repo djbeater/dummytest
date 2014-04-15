@@ -13,6 +13,24 @@
 	<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
 	<!-- Custom styles for this template -->
 	<link href="css/vestules.css" rel="stylesheet">
+	
+	<script>
+		
+		function iegutURL(url){
+			
+			$.get(url, function(data, status){
+				console.debug(data);
+			});
+			
+		}
+		
+		$(document).ready(function(){
+			
+			iegutURL("login.php");
+			
+		});
+	</script>
+	
 	</head>
 	<!-- NAVBAR
 	================================================== -->
