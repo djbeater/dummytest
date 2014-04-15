@@ -3,7 +3,7 @@
 				<?php
 					if(!isset($_POST['submit'])){
 				?>
-				<form class="form-inline" action="<?=$_SERVER['PHP_SELF']?>" method="post">
+				<form id="login" class="form-inline" action="<?=$_SERVER['PHP_SELF']?>" method="post">
 				<div class="form-group">   
 					<input type="text" class="form-control" name="username" placeholder="Lietotājvārds">
 				</div>
@@ -21,6 +21,8 @@
 						<input type="submit" name="submit" value="Login" />
 					</form> 
 				-->
+				<hr class="featurette-divider">
+		</div><!-- /.container -->
 				<?php
 					}else{
 						require_once("config.php");
@@ -37,18 +39,23 @@
 						
 						$sql = "SELECT * from lietotaji WHERE lietotajvards LIKE '{$username}' AND parole LIKE '{$password}' LIMIT 1";
 						$lietotajs=db::query($sql);
+						
+						/*
 						echo'<pre>';
 						print_r($lietotajs);
 						echo'</pre>';
+						*/
+						
 						$result = $mysqli->query($sql);
 						if(!$result->num_rows == 1){
-							echo "<h3>Nepareizs lietotājs un/vai parole!</h3>";      
+							$res['error'] = "<h3>Nepareizs lietotājs un/vai parole!</h3>";
 						}else{
 							$id=$lietotajs[0]["id_lietotajs"];
-							header("Location: vestules.php?lietotajs=$id");
+							$res['ok'] = $id
+							//header("Location: vestules.php?lietotajs=$id");
 							//echo "<h3>Esi veiksmīgi ielogojies!</h3>";      
 						}
+						
+						echo json_encode($res);
 					}
 ?>
-			<hr class="featurette-divider">
-		</div><!-- /.container -->
