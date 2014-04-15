@@ -11,7 +11,7 @@
 					<input type="password" class="form-control" name="password" placeholder="Parole">
 				</div>
 				<button type="submit" name="submit" class="btn btn-default">Pieteikties sistēmā</button>
-				</form>    
+				</form>
 				
 				<!-- The HTML login form -->
 				<!-- <form action="<?=$_SERVER['PHP_SELF']?>" method="post">
