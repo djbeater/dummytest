@@ -211,6 +211,8 @@ echo'</div>';
 	print_r($_GET);
 	echo '<br/>POST<br/>';
     print_r($_POST);
+	echo '<br/>SQL<br/>';
+	db::get_debug();
     echo '</pre>';
   }
 
@@ -226,16 +228,6 @@ echo'</div>';
       </div>
       <div class="modal-body">
       <?php
-           require_once('config.php');
-        require_once('class.db.php');
-           if(DEBUG){
-    ini_set('display_errors', 'On');
-    error_reporting(E_ALL | E_STRICT);
-    
-    echo '<pre>';
-    print_r($_POST);
-    echo '</pre>';
-  }
     $datums = date('Y-m-d H:i:s');
     print_r($datums);
      isset($_GET['lietotajs']); // parbauda vai ir iesūtīta klase uz POST
@@ -268,9 +260,7 @@ echo'</div>';
                '".db::clean_sql($_POST['datums'])."'
            )");             
         }
-           if(DEBUG){
-             db::get_debug();
-        }
+		
       ?>   
     
     
