@@ -254,7 +254,6 @@ echo'</div>';
   
   
            if(isset($_POST['add'])){
-             /*
         db::query("
            INSERT INTO vestules 
                (id_lietotajs1,id_lietotajs2,tema,teksts,datums) 
@@ -264,11 +263,7 @@ echo'</div>';
                '".db::clean_sql($_POST['tema'])."',
                '".db::clean_sql($_POST['teksts'])."',
                '".db::clean_sql($_POST['datums'])."'
-           )");
-             */
-             echo '<pre>';
-             print_r($_POST);
-             echo '</pre>';
+           )");             
         }
            if(DEBUG){
              db::get_debug();
