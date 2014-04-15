@@ -201,22 +201,27 @@ echo'</div>';
   </div>
   <!-- /.row -->
  </pre>
+ 
+ 
+ 	<?php
+	if(DEBUG){
+		ini_set('display_errors', 'On');
+		error_reporting(E_ALL | E_STRICT);
+		echo '<pre>';
+		echo 'GET<br/>';
+		print_r($_GET);
+		echo '<br/>POST<br/>';
+		print_r($_POST);
+		echo '<br/>SQL<br/>';
+		db::get_debug();
+		echo '</pre>';
+	}
+	
+	?>
+ 
+ 
+  </div>
   
-    <?php
-  if(DEBUG){
-    ini_set('display_errors', 'On');
-    error_reporting(E_ALL | E_STRICT);
-    echo '<pre>';
-	echo 'GET<br/>';
-	print_r($_GET);
-	echo '<br/>POST<br/>';
-    print_r($_POST);
-	echo '<br/>SQL<br/>';
-	db::get_debug();
-    echo '</pre>';
-  }
-
-  ?> 
   
   <!-- Modal Pievienot -->
   <div class="modal fade" id="pievienot" tabindex="-1" role="dialog" aria-labelledby="pievienotLabel" aria-hidden="true">
