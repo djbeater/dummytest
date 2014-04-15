@@ -19,6 +19,7 @@
 		function iegutURL(url){
 			
 			$.get(url, function(data, status){
+				$("#ajax-data").html(data);
 				console.debug(data);
 			});
 			
@@ -35,3 +36,4 @@
 	<!-- NAVBAR
 	================================================== -->
 	<body>
+	<div id="ajax-data">
