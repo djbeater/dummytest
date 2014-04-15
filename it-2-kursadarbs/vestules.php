@@ -12,7 +12,7 @@ session_start(); //Start PHP session
   <meta name="author" content="">
   <link rel="shortcut icon" href="docs-assets/ico/favicon.ico">
 
-  <title>VJZSk</title>
+  <title>VJZSk & ...</title>
 
   <!-- Bootstrap core CSS -->
   <link href="css/bootstrap.css" rel="stylesheet">
