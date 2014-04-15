@@ -1,0 +1,40 @@
+.vestule{
+border:1px solid #ccc;
+border-width:100%;
+height:100px;
+}
+
+.header{
+border:1px solid #ccc;
+border-width:100%;
+}
+
+.sutitajs{  
+border:1px solid #ccc;
+width:200px;
+text-align: center;
+position: relative; 
+}
+
+.tema{  
+border:1px solid #ccc;
+width:200px;
+text-align: center;
+position: relative;
+left: 250px;
+top: -20px;
+}
+
+.datums{ 
+border:1px solid #ccc;
+width:150px;
+text-align: center;
+position: relative;
+right: 0px;
+}
+
+.teksts{
+}
+
+.footer{  
+}
