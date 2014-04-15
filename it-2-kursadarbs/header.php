@@ -33,28 +33,8 @@
 		});
 	</script>
 	
-		<script>
-		
-		function iegutURL(url){
-			
-			$.get(url, function(data, status){
-				$("#vestules").html(data);
-				console.debug(data);
-			});
-			
-		}
-		
-		$(document).ready(function(){
-			
-			iegutURL("vestules.php");
-			
-			
-		});
-	</script>
-	
 	</head>
 	<!-- NAVBAR
 	================================================== -->
 	<body>
 	<div id="ajax-data">
-	<div id="vestules">
