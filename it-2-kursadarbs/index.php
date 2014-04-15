@@ -74,7 +74,7 @@ if (!isset($_POST['submit'])){
       echo "<h3>Nepareizs lietotājs un/vai parole!</h3>";      
     } else {
       $id=$lietotajs[0]["id_lietotajs"];
-      header("Location: vestules.php?lietotajs='$id'");
+      header("Location: vestules.php?lietotajs=$id");
       //echo "<h3>Esi veiksmīgi ielogojies!</h3>";      
     }
 }
