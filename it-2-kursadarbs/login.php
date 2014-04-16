@@ -1,8 +1,8 @@
-		<div class="container marketing">  
+		<?php
+			if(!isset($_POST['login'])){
+		?>
+		
 			<h1>Lietotāja pieteikšanās</h1>
-				<?php
-					if(!isset($_POST['submit'])){
-				?>
 				<form id="login" class="form-inline" action="<?=$_SERVER['PHP_SELF']?>" method="post">
 				<div class="form-group">   
 					<input type="text" class="form-control" name="username" placeholder="Lietotājvārds">
@@ -10,6 +10,7 @@
 				<div class="form-group">    
 					<input type="password" class="form-control" name="password" placeholder="Parole">
 				</div>
+					<input type="hidden" name="login">
 				<button type="submit" name="submit" class="btn btn-default">Pieteikties sistēmā</button>
 				</form>
 				
@@ -22,7 +23,7 @@
 					</form> 
 				-->
 				<hr class="featurette-divider">
-		</div><!-- /.container -->
+		
 				<?php
 					}else{
 						require_once("config.php");
@@ -48,10 +49,10 @@
 						
 						$result = $mysqli->query($sql);
 						if(!$result->num_rows == 1){
-							$res['error'] = "<h3>Nepareizs lietotājs un/vai parole!</h3>";
+							$res['error'] = '<h3>Nepareizs lietotājs un/vai parole!</h3>';
 						}else{
 							$id=$lietotajs[0]["id_lietotajs"];
-							$res['ok'] = $id
+							$res['ok'] = $id;
 							//header("Location: vestules.php?lietotajs=$id");
 							//echo "<h3>Esi veiksmīgi ielogojies!</h3>";      
 						}

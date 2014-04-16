@@ -35,8 +35,13 @@
 		}
 		
 		function success(data){
-			console.debug(data);
-			return data;
+			if(data.error){
+				$("#ajax-data").html('<div class="alert alert-danger">'+data.error+'</div>');
+			}else if(data.ok){
+				$("#ajax-data").html('<div class="alert alert-success">'+data.ok+'</div>');
+			}else{
+				$("#ajax-data").html(data);
+			}
 		}
 		
 		
@@ -44,17 +49,12 @@
 			
 			iegutURL("login.php", "GET", "", "html");
 			
-			$("#login").submit(function(event){
+			$(document).on("submit", "#login", function(event){
+				console.debug("submits!");
 				
 				var data = $('#login').serialize();
 				
-				var result = iegutURL("login.php", "POST", data, "html");
-				
-				if(result.error){
-					$("#ajax-data").html('<div class="alert alert-danger">'+result.error+'</div>');
-				}else if(result.ok){
-					$("#ajax-data").html('<div class="alert alert-danger">'+result.ok+'</div>');
-				}
+				iegutURL("login.php", "POST", data, "json");
 				
 				/*
 				if ( $( "input:first" ).val() === "correct" ) {
@@ -66,6 +66,8 @@
 				event.preventDefault();
 				*/
 				
+				return false;
+				
 			});
 			
 		});
@@ -75,4 +77,5 @@
 	<!-- NAVBAR
 	================================================== -->
 	<body>
-	<div id="ajax-data">
+	<div class="container marketing">
+		<div id="ajax-data">
