@@ -12,7 +12,7 @@
 	<link href="css/bootstrap.css" rel="stylesheet">
 	<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
 	<!-- Custom styles for this template -->
-	<link href="css/vestules.css" rel="stylesheet">
+	<link href="css/style.css" rel="stylesheet">
 	
 	<script>
 		
@@ -45,13 +45,16 @@
 			}
 		}
 		
+		function mainitStatusu(msg_id){
+			iegutURL("statuss.php", "POST", {msg_id: msg_id}, "json");
+		}
 		
 		$(document).ready(function(){
 			
-			iegutURL("login.php", "GET", "", "html");
+			iegutURL("login.php", "GET", "", "json");
 			
 			$(document).on("submit", "#login", function(event){
-				console.debug("submits!");
+				//console.debug("submits!");
 				
 				var data = $('#login').serialize();
 				
@@ -69,6 +72,13 @@
 				
 				return false;
 				
+			});
+			
+			
+			$(document).on("click", ".panel-title a", function(event){
+				var msg_id = $(this).data("id");
+				$(this).find(".row").removeClass("text-bold");
+				mainitStatusu(msg_id);
 			});
 			
 		});

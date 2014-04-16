@@ -46,50 +46,52 @@
 		if($sanemtas!=NULL){
 			for($i=0;$i<$sks;$i++){
 				$a=$sanemtas[$i]["id_vestule"];
-				echo'<div class="panel-group" id="accordion">';
-				echo'<div class="panel panel-default">';
-					echo'<div class="panel-heading">';
-					echo'<h4 class="panel-title">';
-						echo'<a data-toggle="collapse" data-parent="#accordion" href="#s'.$a.'">';
-						if($sanemtas[$i]["statuss"]==0){ 
-						echo'<b>';
-						echo'<div onlick="MainitStatusu()" class="row">';
-						echo'<div class="col-md-4 text-center">';
-						echo $sanemtas[$i]["vards"]. " " .$sanemtas[$i]["uzvards"];
-						echo'</div>';
-						echo'<div class="col-md-4 text-center">';
-						echo $sanemtas[$i]["tema"]; 
-						echo'</div>';
-						echo'<div class="col-md-4 text-center">';
-						echo $sanemtas[$i]["datums"];
-						echo'</div>';
-						echo'</div>';
-						echo'</b>';
+				$san_html = '<div class="panel-group" id="accordion">
+								<div class="panel panel-default">
+									<div class="panel-heading">
+										<h4 class="panel-title">
+											<a data-toggle="collapse" data-parent="#accordion" href="#s'.$a.'" data-id="'.$a.'">';
+												if($sanemtas[$i]["statuss"]==0){
+						$san_html .=		'
+											<div class="row text-bold">
+												<div class="col-md-4 text-center">
+													'.$sanemtas[$i]['vards'].' '.$sanemtas[$i]['uzvards'].'
+												</div>
+												<div class="col-md-4 text-center">
+													'.$sanemtas[$i]['tema'].' 
+												</div>
+												<div class="col-md-4 text-center">
+													'.$sanemtas[$i]['datums'].'
+												</div>
+											</div>
+											';
 					}else{
-					echo'<div class="row">';
-						echo'<div class="col-md-4 text-center">';
-						echo $sanemtas[$i]["vards"]. " " .$sanemtas[$i]["uzvards"];
-						echo'</div>';
-						echo'<div class="col-md-4 text-center">';
-						echo $sanemtas[$i]["tema"]; 
-						echo'</div>';
-						echo'<div class="col-md-4 text-center">';
-						echo $sanemtas[$i]["datums"];
-						echo'</div>';
-						echo'</div>';
+						$san_html .=		'<div class="row">
+												<div class="col-md-4 text-center">
+													'.$sanemtas[$i]['vards'].' '.$sanemtas[$i]['uzvards'].'
+												</div>
+												<div class="col-md-4 text-center">
+													'.$sanemtas[$i]['tema'].' 
+												</div>
+												<div class="col-md-4 text-center">
+													'.$sanemtas[$i]['datums'].'
+												</div>
+											</div>
+											';
 					}
-						echo'</a>';
-					echo'</h4>';
-					echo'</div>';
-					echo'<div id="s'.$a.'" class="panel-collapse collapse">';
-					echo'<div class="panel-body">';
-						echo'<div class="teksts">';       
-						echo $sanemtas[$i]["teksts"];
-						echo'</div>';
-					echo'</div>';
-					echo'</div>';
-				echo'</div>'; 
+								$san_html .='</a>
+										</h4>
+									</div>
+									<div id="s'.$a.'" class="panel-collapse collapse">
+										<div class="panel-body">
+											<div class="teksts">      
+												'.$sanemtas[$i]['teksts'].'
+											</div>
+										</div>
+									</div>
+								</div>'; 
 			}
+			echo $san_html;
 		}
 		echo'<center><h1>Nosūtītās vēstules</h1></center>';
 		$nosutitas=db::query(' SELECT l.vards, l.uzvards, v.id_vestule, v.id_lietotajs1, v.id_lietotajs2, v.tema, v.teksts, v.datums, v.statuss
@@ -105,7 +107,7 @@
 				echo'<div class="panel panel-default">';
 					echo'<div class="panel-heading">';
 					echo'<h4 class="panel-title">';
-						echo'<a data-toggle="collapse" data-parent="#accordion" href="#n'.$a.'">';
+						echo'<a data-toggle="collapse" data-parent="#accordion" href="#n'.$a.'" data-id="'.$a.'">';
 						if($nosutitas[$i]["statuss"]==0){ 
 						echo'<b>';
 						echo'<div class="row">';
