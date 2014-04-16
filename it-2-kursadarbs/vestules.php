@@ -109,8 +109,8 @@
 					echo'<h4 class="panel-title">';
 						echo'<a data-toggle="collapse" data-parent="#accordion" href="#n'.$a.'" data-id="'.$a.'">';
 						if($nosutitas[$i]["statuss"]==0){ 
-						echo'<b>';
-						echo'<div class="row">';
+						
+						echo'<div class="row text-bold">';
 						echo'<div class="col-md-4 text-center">';
 						echo $nosutitas[$i]["vards"]. " " .$nosutitas[$i]["uzvards"];
 						echo'</div>';
@@ -121,7 +121,7 @@
 						echo $nosutitas[$i]["datums"];
 						echo'</div>';
 						echo'</div>';
-						echo'</b>';
+						
 					}else{
 					echo'<div class="row">';
 						echo'<div class="col-md-4 text-center">';
