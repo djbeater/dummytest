@@ -27,6 +27,7 @@
 			echo'<h3>';
 			echo "       ".$online[0]["vards"]. " " .$online[0]["uzvards"];
 			echo'</h3>';
+			echo '<a class="btn btn-danger logout">Iziet</a>';
 		}else{
 			$lietotajs=null;
 			echo "Nav lietotāja!";

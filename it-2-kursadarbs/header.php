@@ -51,7 +51,7 @@
 		
 		$(document).ready(function(){
 			
-			iegutURL("login.php", "GET", "", "json");
+			iegutURL("login.php", "GET", "", "");
 			
 			$(document).on("submit", "#login", function(event){
 				//console.debug("submits!");
@@ -79,6 +79,12 @@
 				var msg_id = $(this).data("id");
 				$(this).find(".row").removeClass("text-bold");
 				mainitStatusu(msg_id);
+			});
+			
+			$(document).on("click", "a.logout", function(event){
+				iegutURL("logout.php", "GET", "", "");
+				iegutURL("login.php", "GET", "", "");
+				return false;
 			});
 			
 		});
