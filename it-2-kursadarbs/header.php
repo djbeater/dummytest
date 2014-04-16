@@ -37,11 +37,14 @@
 		function success(data){
 			if(data.error){
 				$("#ajax-data").html('<div class="alert alert-danger">'+data.error+'</div>');
+				setTimeout(function(){
+					iegutURL("login.php", "GET", "", "json");
+				}, 1000);
 			}else if(data.ok){
 				$("#ajax-data").html('<div class="alert alert-success">'+data.ok+'</div>');
-				iegutURL("vestules.php", "GET", "", "html");
+				iegutURL("vestules.php", "GET", "", "json");
 			}else{
-				$("#ajax-data").html(data);
+				$("#ajax-data").html(data.html);
 			}
 		}
 		
@@ -51,7 +54,7 @@
 		
 		$(document).ready(function(){
 			
-			iegutURL("login.php", "GET", "", "");
+			iegutURL("login.php", "GET", "", "json");
 			
 			$(document).on("submit", "#login", function(event){
 				//console.debug("submits!");
@@ -82,8 +85,10 @@
 			});
 			
 			$(document).on("click", "a.logout", function(event){
-				iegutURL("logout.php", "GET", "", "");
-				iegutURL("login.php", "GET", "", "");
+				iegutURL("logout.php", "GET", "", "json");
+				setTimeout(function(){
+					iegutURL("login.php", "GET", "", "json");
+				}, 1000);
 				return false;
 			});
 			

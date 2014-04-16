@@ -2,7 +2,6 @@
 	session_start(); //Start PHP session
 	if(isset($_SESSION['lietotajs'])){
 		$res['ok'] = $_SESSION['lietotajs'];
-		echo json_encode($res);
 	}else if(isset($_POST['login'])){
 		require_once("config.php");
 		require_once("class.db.php");
@@ -31,20 +30,16 @@
 		}else{
 			$id=$lietotajs[0]["id_lietotajs"];
 			$res['ok'] = $id;
-			
-			
 			$_SESSION['lietotajs'] = $id;
-			
 			//header("Location: vestules.php?lietotajs=$id");
 			//echo "<h3>Esi veiksmīgi ielogojies!</h3>";      
 		}
 		
-		echo json_encode($res);
-	
 	}else{
-?>
+	
+		$res['html'] = '
 			<h1>Lietotāja pieteikšanās</h1>
-				<form id="login" class="form-inline" action="<?=$_SERVER['PHP_SELF']?>" method="post">
+				<form id="login" class="form-inline" action="'.$_SERVER['PHP_SELF'].'" method="post">
 				<div class="form-group">   
 					<input type="text" class="form-control" name="username" placeholder="Lietotājvārds">
 				</div>
@@ -55,6 +50,7 @@
 				<button type="submit" name="submit" class="btn btn-default">Pieteikties sistēmā</button>
 				</form>
 				<hr class="featurette-divider">
-<?php
-			}
-?>
+			';
+}
+
+echo json_encode($res);

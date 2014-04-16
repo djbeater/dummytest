@@ -5,7 +5,7 @@
 	
 	if(isset($_POST['add'])){
 		db::query("INSERT INTO vestules 
-				(id_lietotajs1,id_lietotajs2,tema,teksts,datums)
+				(id_lietotajs1, id_lietotajs2, tema, teksts, datums)
 			VALUES(
 				'".db::clean_sql($_POST['sutitajs'])."',
 				'".db::clean_sql($_POST['sanemejs'])."',
@@ -14,25 +14,26 @@
 				'".db::clean_sql($_POST['datums'])."'
 			)");
 	}else{
+		$html = '';
 		/*
 		SELECT l.vards,v.tema, v.teksts,v.datums 
 		FROM maris_test.lietotaji AS l, maris_test.vestules AS v
 		WHERE v.id_lietotajs1=l.id_lietotajs;
 		*/
-		echo'<pre>';  
+		$html = '<pre>';  
 		if(isset($_SESSION['lietotajs'])){ // parbauda vai ir iesūtīta klase uz POST
 			$lietotajs=$_SESSION['lietotajs'];
-			echo"Ir lietotājs! $lietotajs";
+			$html .= 'Ir lietotājs! '.$lietotajs.'';
 			$online=db::query(' SELECT vards, uzvards FROM lietotaji WHERE id_lietotajs='.$lietotajs.'');
-			echo'<h3>';
-			echo "       ".$online[0]["vards"]. " " .$online[0]["uzvards"];
-			echo'</h3>';
-			echo '<a class="btn btn-danger logout">Iziet</a>';
+			$html .= '<h3>';
+			$html .=  ''.$online[0]['vards'].' '.$online[0]['uzvards'].'';
+			$html .= '</h3>';
+			$html .= '<a class="btn btn-danger logout">Iziet</a>';
 		}else{
 			$lietotajs=null;
-			echo "Nav lietotāja!";
+			$html .= "Nav lietotāja!";
 		}
-		echo'</pre>';
+		$html .= '</pre>';
 		
 		$sanemtas=db::query(' SELECT l.vards, l.uzvards, v.id_vestule, v.id_lietotajs1, v.id_lietotajs2, v.tema, v.teksts, v.datums, v.statuss
 			FROM lietotaji AS l, vestules AS v
@@ -41,161 +42,136 @@
 			$skaitas=db::query('SELECT COUNT(*)FROM vestules WHERE id_lietotajs2='.$lietotajs.''); 
 			$sks=$skaitas[0]["COUNT(*)"];
 			
-		echo'<br>';  
-		echo'<center><h1>Saņemtās vēstules</h1></center>'; 
+		$html .= '<br>';
+		$html .= '<center><h1>Saņemtās vēstules</h1></center>';
+		
+		$html .= '<div class="panel-group" id="accordion-inbox">';
 		
 		if($sanemtas!=NULL){
-			for($i=0;$i<$sks;$i++){
+			for($i=0; $i<$sks; $i++){
 				$a=$sanemtas[$i]["id_vestule"];
-				$san_html = '<div class="panel-group" id="accordion">
-								<div class="panel panel-default">
-									<div class="panel-heading">
-										<h4 class="panel-title">
-											<a data-toggle="collapse" data-parent="#accordion" href="#s'.$a.'" data-id="'.$a.'">';
-												if($sanemtas[$i]["statuss"]==0){
-						$san_html .=		'
-											<div class="row text-bold">
-												<div class="col-md-4 text-center">
-													'.$sanemtas[$i]['vards'].' '.$sanemtas[$i]['uzvards'].'
-												</div>
-												<div class="col-md-4 text-center">
-													'.$sanemtas[$i]['tema'].' 
-												</div>
-												<div class="col-md-4 text-center">
-													'.$sanemtas[$i]['datums'].'
-												</div>
-											</div>
-											';
-					}else{
-						$san_html .=		'<div class="row">
-												<div class="col-md-4 text-center">
-													'.$sanemtas[$i]['vards'].' '.$sanemtas[$i]['uzvards'].'
-												</div>
-												<div class="col-md-4 text-center">
-													'.$sanemtas[$i]['tema'].' 
-												</div>
-												<div class="col-md-4 text-center">
-													'.$sanemtas[$i]['datums'].'
-												</div>
-											</div>
-											';
-					}
-								$san_html .='</a>
-										</h4>
-									</div>
-									<div id="s'.$a.'" class="panel-collapse collapse">
-										<div class="panel-body">
-											<div class="teksts">      
-												'.$sanemtas[$i]['teksts'].'
-											</div>
+				
+				if($sanemtas[$i]["statuss"]==0){
+					$sbold = 'text-bold';
+				}else{
+					$sbold = '';
+				}
+				
+				$html .= '
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h4 class="panel-title">
+								<a data-toggle="collapse" data-parent="#accordion-inbox" href="#s'.$a.'" data-id="'.$a.'">
+									<div class="row '.$sbold.'">
+										<div class="col-md-4 text-center">
+											'.$sanemtas[$i]['vards'].' '.$sanemtas[$i]['uzvards'].'
+										</div>
+										<div class="col-md-4 text-center">
+											'.$sanemtas[$i]['tema'].' 
+										</div>
+										<div class="col-md-4 text-center">
+											'.$sanemtas[$i]['datums'].'
 										</div>
 									</div>
-								</div>'; 
+								</a>
+							</h4>
+						</div>
+						<div id="s'.$a.'" class="panel-collapse collapse">
+							<div class="panel-body">
+								<div class="teksts">      
+									'.$sanemtas[$i]['teksts'].'
+								</div>
+							</div>
+						</div>
+					</div>'; 
 			}
-			echo $san_html;
+			$html .= '</div>';
 		}
-		echo'<center><h1>Nosūtītās vēstules</h1></center>';
+		
+		$html .= '<center><h1>Nosūtītās vēstules</h1></center>';
+		
 		$nosutitas=db::query(' SELECT l.vards, l.uzvards, v.id_vestule, v.id_lietotajs1, v.id_lietotajs2, v.tema, v.teksts, v.datums, v.statuss
 			FROM lietotaji AS l, vestules AS v
 			WHERE (v.id_lietotajs2=l.id_lietotajs) AND (v.id_lietotajs1='.$lietotajs.') ORDER BY v.datums DESC');
 		$skaitan=db::query('SELECT COUNT(*)FROM vestules WHERE id_lietotajs1='.$lietotajs.'');
 		$skn=$skaitan[0]["COUNT(*)"];
 		if($nosutitas!=NULL){
+		$html .= '<div class="panel-group" id="accordion-outbox">';
 			for($i=0;$i<$skn;$i++){
-				$a=$nosutitas[$i]["id_vestule"];   
+				$a=$nosutitas[$i]["id_vestule"];
 				//print_r($a);
-				echo'<div class="panel-group" id="accordion">';
-				echo'<div class="panel panel-default">';
-					echo'<div class="panel-heading">';
-					echo'<h4 class="panel-title">';
-						echo'<a data-toggle="collapse" data-parent="#accordion" href="#n'.$a.'" data-id="'.$a.'">';
-						if($nosutitas[$i]["statuss"]==0){ 
-						
-						echo'<div class="row text-bold">';
-						echo'<div class="col-md-4 text-center">';
-						echo $nosutitas[$i]["vards"]. " " .$nosutitas[$i]["uzvards"];
-						echo'</div>';
-						echo'<div class="col-md-4 text-center">';
-						echo $nosutitas[$i]["tema"]; 
-						echo'</div>';
-						echo'<div class="col-md-4 text-center">';
-						echo $nosutitas[$i]["datums"];
-						echo'</div>';
-						echo'</div>';
-						
-					}else{
-					echo'<div class="row">';
-						echo'<div class="col-md-4 text-center">';
-						echo $nosutitas[$i]["vards"]. " " .$nosutitas[$i]["uzvards"];
-						echo'</div>';
-						echo'<div class="col-md-4 text-center">';
-						echo $nosutitas[$i]["tema"]; 
-						echo'</div>';
-						echo'<div class="col-md-4 text-center">';
-						echo $nosutitas[$i]["datums"];
-						echo'</div>';
-						echo'</div>';
-					}
-						echo'</a>';
-					echo'</h4>';
-					echo'</div>';
-					echo'<div id="n'.$a.'" class="panel-collapse collapse">';
-					echo'<div class="panel-body">';
-						echo'<div class="teksts">';       
-						echo $nosutitas[$i]["teksts"];
-						echo'</div>';
-					echo'</div>';
-					echo'</div>';
-				echo'</div>'; 
+				
+				if($nosutitas[$i]["statuss"]==0){
+					$nbold = 'text-bold';
+				}else{
+					$nbold = '';
+				}
+				
+				$html .= '
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h4 class="panel-title">
+								<a data-toggle="collapse" data-parent="#accordion-outbox" href="#s'.$a.'" data-id="'.$a.'">
+									<div class="row '.$nbold.'">
+										<div class="col-md-4 text-center">
+											'.$nosutitas[$i]['vards'].' '.$nosutitas[$i]['uzvards'].'
+										</div>
+										<div class="col-md-4 text-center">
+											'.$nosutitas[$i]['tema'].' 
+										</div>
+										<div class="col-md-4 text-center">
+											'.$nosutitas[$i]['datums'].'
+										</div>
+									</div>
+								</a>
+							</h4>
+						</div>
+						<div id="s'.$a.'" class="panel-collapse collapse">
+							<div class="panel-body">
+								<div class="teksts">      
+									'.$sanemtas[$i]['teksts'].'
+								</div>
+							</div>
+						</div>
+					</div>'; 
 			}
+		$html .= '</div>';
 		}   
 		/*  
-		echo'<pre>';
+		$html .= '<pre>';
 		print_r($nosutitas);
-		echo'</pre>';
+		$html .= '</pre>';
 		*/
-		?>  
-		<br>
-		<br>
-		<br>
-		<br>   
-		<pre> 
-			<!-- /.col-lg-4 -->
-			<div class="col-lg-4">   
-				<h2>Pievienot</h2>
-				<p>Rakstīt jaunu vēstuli.</p>
-				<p>
-					<a class="btn btn-default" data-toggle="modal" data-target="#pievienot">Rakstīt »</a>
-				</p>
-			</div>
-			<!-- /.col-lg-4 -->
-			<div class="col-lg-4">
-			</div>
-			<!-- /.col-lg-4 -->
-			</div>
-			<!-- /.row -->
-		</pre>
-		
-		<?php
+		$html .= '
+				<br>
+				<br>
+				<br>
+				<br>   
+				<pre>
+					<div class="col-lg-4">   
+						<h2>Pievienot</h2>
+						<p>Rakstīt jaunu vēstuli.</p>
+						<p><a class="btn btn-default" data-toggle="modal" data-target="#pievienot">Rakstīt »</a></p>
+					</div>
+					
+					<div class="col-lg-4"></div>
+				</pre>';
+				
 		if(DEBUG){
 			ini_set('display_errors', 'On');
 			error_reporting(E_ALL | E_STRICT);
-			echo '<pre>';
-			echo 'GET<br/>';
-			print_r($_GET);
-			echo '<br/>POST<br/>';
-			print_r($_POST);
-			echo '<br/>SQL<br/>';
-			db::get_debug();
-			echo '</pre>';
+			$html .= '<pre>';
+			$html .= 'GET<br/>';
+			$html .= print_r($_GET, true);
+			$html .= '<br/>POST<br/>';
+			$html .= print_r($_POST, true);
+			$html .= '<br/>SQL<br/>';
+			$html .= db::get_debug();
+			$html .= '</pre>';
 		}
 		
-		?>
-		
-		</div>
-	<?php
-		$modal = '<!-- Modal Pievienot -->';
-		$modal .= '
+		$html .= '<!-- Modal Pievienot -->';
+		$html .= '
 		<div class="modal fade" id="pievienot" tabindex="-1" role="dialog" aria-labelledby="pievienotLabel" aria-hidden="true">
 			<div class="modal-dialog">
 				<div class="modal-content">
@@ -205,11 +181,11 @@
 					</div>
 					<div class="modal-body">';
 					$datums = date('Y-m-d H:i:s');
-					print_r($datums);
+					$html .= print_r($datums, true);
 					isset($_GET['lietotajs']); // parbauda vai ir iesūtīta klase uz POST
 					// $lietotajs=$_GET['lietotajs'];
 					
-		$modal .='<br /><br />
+		$html .='<br /><br />
 						<form method="post">
 						<input type="hidden" name="add">
 						<p><input type="hidden" name="sutitajs" value="'.$lietotajs.'" /></p>
@@ -224,9 +200,11 @@
 			</div>
 		</div>';
 						
-		echo $modal;
-		print_r($lietotajs);
-		echo '<hr class="featurette-divider">';
+		//echo $modal;
+		//print_r($lietotajs);
+		$html .= '<hr class="featurette-divider">';
 		
 	}
-		
+	
+	$res['html'] = $html;
+	echo json_encode($res);

@@ -96,11 +96,11 @@ class db
         if (!self::$instance) self::$instance = new db();
 		if (!empty(self::$instance->debug))
 		{
-			echo '<pre>';
-			var_dump(self::$instance->debug);
-			echo '</pre>';
+			//echo '<pre>';
+			return var_dump(self::$instance->debug);
+			//echo '</pre>';
 		}
 		else
-			echo '<pre>No SQL errors!</pre>';
+			return 'No SQL errors!';
     }
 }
