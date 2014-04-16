@@ -39,6 +39,7 @@
 				$("#ajax-data").html('<div class="alert alert-danger">'+data.error+'</div>');
 			}else if(data.ok){
 				$("#ajax-data").html('<div class="alert alert-success">'+data.ok+'</div>');
+				iegutURL("vestules.php", "GET", "", "html");
 			}else{
 				$("#ajax-data").html(data);
 			}

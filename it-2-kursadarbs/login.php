@@ -53,6 +53,10 @@
 						}else{
 							$id=$lietotajs[0]["id_lietotajs"];
 							$res['ok'] = $id;
+							session_start(); //Start PHP session
+							
+							$_SESSION['lietotajs'] = $id;
+							
 							//header("Location: vestules.php?lietotajs=$id");
 							//echo "<h3>Esi veiksmīgi ielogojies!</h3>";      
 						}
